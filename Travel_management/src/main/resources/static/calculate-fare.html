@@ -1,0 +1,208 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Calculate Fare</title>-->
+<!--    <link rel="stylesheet" href="styles.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <h1>Cab Fare Calculator</h1>-->
+<!--    <form id="fareForm">-->
+<!--        <div class="form-group">-->
+<!--            <label for="pickupLocation">Pickup Location:</label>-->
+<!--            <input type="text" id="pickupLocation" name="pickupLocation" required>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="dropoffLocation">Dropoff Location:</label>-->
+<!--            <input type="text" id="dropoffLocation" name="dropoffLocation" required>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="numberOfTravelers">Number of Travelers:</label>-->
+<!--            <input type="number" id="numberOfTravelers" name="numberOfTravelers" required>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="distance">Distance (in km):</label>-->
+<!--            <input type="number" id="distance" name="distance" step="0.1" required>-->
+<!--        </div>-->
+
+<!--        <button type="submit">Calculate Fare</button>-->
+<!--    </form>-->
+
+<!--    <div id="fareResult" class="result">-->
+<!--        &lt;!&ndash; Fare result will be displayed here &ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    document.getElementById('fareForm').addEventListener('submit', function(event) {-->
+<!--        event.preventDefault();-->
+
+<!--        const pickupLocation = document.getElementById('pickupLocation').value;-->
+<!--        const dropoffLocation = document.getElementById('dropoffLocation').value;-->
+<!--        const numberOfTravelers = document.getElementById('numberOfTravelers').value;-->
+<!--        const distance = document.getElementById('distance').value;-->
+
+<!--        fetch('/api/bookings', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Content-Type': 'application/json',-->
+<!--            },-->
+<!--            body: JSON.stringify({-->
+<!--                pickupLocation,-->
+<!--                dropoffLocation,-->
+<!--                numberOfTravelers: parseInt(numberOfTravelers),-->
+<!--                distance: parseFloat(distance),-->
+<!--            }),-->
+<!--        })-->
+<!--            .then(response => {-->
+<!--                if (!response.ok) {-->
+<!--                    throw new Error('Network response was not ok ' + response.statusText);-->
+<!--                }-->
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(data => {-->
+<!--                document.getElementById('fareResult').innerHTML = `Estimated Fare: $${data.fare}`;-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                document.getElementById('fareResult').innerHTML = 'Error: ' + error.message;-->
+<!--            });-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Fare - Travel Management Solution</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .fare-form {
+            margin-top: 20px;
+        }
+        .fare-form input {
+            padding: 10px;
+            margin: 10px 0;
+            width: calc(100% - 22px);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .fare-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .fare-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .fare-result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e2f0e8;
+            border: 1px solid #d3e6d3;
+            border-radius: 5px;
+            display: none; /* Initially hide the result */
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Calculate Fare</h1>
+    <a href="booking.html">Book Cab</a>
+    <a href="calculate-fare.html">Calculate Fare</a>
+</div>
+
+<div class="container">
+    <h2>Fare Calculation</h2>
+    <form class="fare-form" id="fareForm">
+        <label for="numberOfTravelers">Number of Travelers:</label>
+        <input type="number" id="numberOfTravelers" name="numberOfTravelers" required min="1">
+
+        <label for="distance">Distance (in km):</label>
+        <input type="number" id="distance" name="distance" required>
+
+        <label for="cabType">Type of Cab:</label>
+        <select id="cabType" name="cabType" required>
+            <option value="1">Cab Type 1</option>
+            <option value="2">Cab Type 2</option>
+            <option value="3">Cab Type 3</option>
+        </select>
+
+        <input type="submit" value="Calculate Fare">
+    </form>
+
+
+    <div class="fare-result" id="fareResult">
+        <h3>Calculated Fare:</h3>
+        <p id="resultFare"></p>
+    </div>
+</div>
+
+<script>
+    document.getElementById("fareForm").onsubmit = function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = {
+            numberOfTravelers: parseInt(document.getElementById('numberOfTravelers').value),
+            distance: parseFloat(document.getElementById('distance').value)
+        };
+
+        fetch('/api/fare/calculate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display calculated fare
+                document.getElementById('resultFare').textContent = `$${data.fare.toFixed(2)}`;
+                document.getElementById('fareResult').style.display = 'block';
+            })
+            .catch(error => alert('Error: ' + error.message));
+    };
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,188 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Book a Cab</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h1>Book a Cab</h1>-->
+<!--<form id="bookingForm">-->
+<!--  <label for="pickupLocation">Pickup Location:</label>-->
+<!--  <input type="text" id="pickupLocation" name="pickupLocation" required>-->
+
+<!--  <label for="dropoffLocation">Dropoff Location:</label>-->
+<!--  <input type="text" id="dropoffLocation" name="dropoffLocation" required>-->
+
+<!--  <label for="numberOfTravelers">Number of Travelers:</label>-->
+<!--  <input type="number" id="numberOfTravelers" name="numberOfTravelers" required min="1">-->
+
+<!--  <label for="distance">Distance (in km):</label>-->
+<!--  <input type="number" id="distance" name="distance" required>-->
+
+<!--  <input type="submit" value="Book Cab">-->
+<!--</form>-->
+
+<!--<div id="result"></div>-->
+
+<!--<script>-->
+<!--  document.getElementById("bookingForm").onsubmit = function(event) {-->
+<!--    event.preventDefault();-->
+
+<!--    const bookingData = {-->
+<!--      pickupLocation: document.getElementById('pickupLocation').value,-->
+<!--      dropoffLocation: document.getElementById('dropoffLocation').value,-->
+<!--      numberOfTravelers: parseInt(document.getElementById('numberOfTravelers').value),-->
+<!--      distance: parseFloat(document.getElementById('distance').value)-->
+<!--    };-->
+
+<!--    fetch('/api/bookings', {-->
+<!--      method: 'POST',-->
+<!--      headers: {-->
+<!--        'Content-Type': 'application/json'-->
+<!--      },-->
+<!--      body: JSON.stringify(bookingData)-->
+<!--    })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--              document.getElementById('result').innerHTML = `Booking Successful! Fare: $${data.fare}`;-->
+<!--            })-->
+<!--            .catch(error => alert('Error: ' + error));-->
+<!--  };-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Management Solution</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 5px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .booking-form {
+      margin-top: 20px;
+    }
+    .booking-form input, .booking-form select {
+      padding: 10px;
+      margin: 10px 0;
+      width: calc(100% - 22px);
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .booking-form input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .booking-form input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .booking-info {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e2f0e8;
+      border: 1px solid #d3e6d3;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Welcome to Travel Management Solution</h1>
+  <a href="book-cab.html">Book Cab</a>
+  <a href="calculate-fare.html">Calculate Fare</a>
+</div>
+
+<div class="container">
+  <h2>Book A Cab</h2>
+  <form class="booking-form" id="bookingForm" method="POST" action="/api/bookings">
+    <label for="from">From Location:</label>
+    <input type="text" id="from" name="pickupLocation" required>
+
+    <label for="to">To Location:</label>
+    <input type="text" id="to" name="dropoffLocation" required>
+
+    <label for="numberOfTravelers">Number of Travelers:</label>
+    <input type="number" id="numberOfTravelers" name="numberOfTravelers" required min="1">
+
+    <label for="distance">Distance (in km):</label>
+    <input type="number" id="distance" name="distance" required>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <div class="booking-info">
+    <h3>Your Booking Information</h3>
+    <p>Pickup Location: <span id="pickupLocation"></span></p>
+    <p>Dropoff Location: <span id="dropoffLocation"></span></p>
+    <p>Number of Travelers: <span id="numberOfTravelersInfo"></span></p>
+    <p>Distance: <span id="distanceInfo"></span> km</p>
+    <p>Fare: $<span id="fareInfo"></span></p>
+  </div>
+</div>
+
+<script>
+  document.getElementById("bookingForm").onsubmit = function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = {
+      pickupLocation: document.getElementById('from').value,
+      dropoffLocation: document.getElementById('to').value,
+      numberOfTravelers: document.getElementById('numberOfTravelers').value,
+      distance: document.getElementById('distance').value
+    };
+
+    fetch('/api/bookings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+            .then(response => response.json())
+            .then(data => {
+              // Display booking info
+              document.getElementById('pickupLocation').textContent = data.pickupLocation;
+              document.getElementById('dropoffLocation').textContent = data.dropoffLocation;
+              document.getElementById('numberOfTravelersInfo').textContent = data.numberOfTravelers;
+              document.getElementById('distanceInfo').textContent = data.distance;
+              document.getElementById('fareInfo').textContent = data.fare.toFixed(2);
+            })
+            .catch(error => alert('Error: ' + error));
+  };
+</script>
+
+</body>
+</html>

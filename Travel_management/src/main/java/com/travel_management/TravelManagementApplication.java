@@ -8,6 +8,7 @@ public class TravelManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TravelManagementApplication.class, args);
+		System.err.println("Travellers Basic App is Running");
 	}
 
 }

@@ -112,7 +112,7 @@
         .fare-form {
             margin-top: 20px;
         }
-        .fare-form input {
+        .fare-form input, .fare-form select {
             padding: 10px;
             margin: 10px 0;
             width: calc(100% - 22px);
@@ -165,7 +165,6 @@
         <input type="submit" value="Calculate Fare">
     </form>
 
-
     <div class="fare-result" id="fareResult">
         <h3>Calculated Fare:</h3>
         <p id="resultFare"></p>
@@ -178,7 +177,8 @@
 
         const formData = {
             numberOfTravelers: parseInt(document.getElementById('numberOfTravelers').value),
-            distance: parseFloat(document.getElementById('distance').value)
+            distance: parseFloat(document.getElementById('distance').value),
+            cabType: parseInt(document.getElementById('cabType').value)
         };
 
         fetch('/api/fare/calculate', {
@@ -205,4 +205,5 @@
 
 </body>
 </html>
+
 

@@ -4,7 +4,7 @@
 
 1. Travel Management Software
 
-![Image 1](assests/images/image1.png)
-![Image 2](assests/images/image2.png)
-![Image 3](assests/images/image3.png)
+![Image 1](assests/img1.png)
+![Image 2](assests/img2.png)
+![Image 3](assests/img3.png)
 

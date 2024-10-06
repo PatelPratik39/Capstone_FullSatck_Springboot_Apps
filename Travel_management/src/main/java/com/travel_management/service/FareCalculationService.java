@@ -6,28 +6,25 @@ import org.springframework.stereotype.Service;
 public class FareCalculationService {
 
     public double calculateFare(int numberOfTravelers, double distance, int cabType) {
-        double fare;
+        double baseFare;
 
-        // Validate cab type
         switch (cabType) {
-            case 1: // Sedan
-                fare = distance * 10; // Example calculation
+            case 1:
+                baseFare = 10.0; // Example fare for cab type 1
                 break;
-            case 2: // SUV
-                fare = distance * 15; // Example calculation
+            case 2:
+                baseFare = 15.0; // Example fare for cab type 2
                 break;
-            case 3: // Luxury
-                fare = distance * 20; // Example calculation
+            case 3:
+                baseFare = 20.0; // Example fare for cab type 3
                 break;
             default:
-                throw new IllegalArgumentException("Invalid cab type");
+                throw new IllegalArgumentException("Invalid cab type"); // This will be triggered if the cabType is not valid
         }
 
-        // Add additional fare calculations based on the number of travelers
-        fare *= numberOfTravelers;
-
-        return fare;
+        return baseFare * distance * numberOfTravelers; // Example fare calculation
     }
+
 
 
 //    private static final double BASE_RATE_PER_KM = 10.0;

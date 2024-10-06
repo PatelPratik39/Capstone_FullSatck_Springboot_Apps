@@ -3,6 +3,8 @@
 # Full Stack Apps
 
 1. Travel Management Software
-  <img src="assets/img1.png" alt="image1" />
-  <img src="assets/img2.png" alt="image2" />
-  <img src="assets/img3.png" alt="image3" />
+
+![Image 1](assets/images/image1.png)
+![Image 2](assets/images/image2.png)
+![Image 3](assets/images/image3.png)
+
